@@ -1,7 +1,10 @@
 const express = require("express");
-require("dotenv").config();
 const mongoose = require("mongoose");
 const app = express();
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const expressValidator = require("express-validator");
+require("dotenv").config();
 
 // import routes
 
@@ -11,6 +14,12 @@ const userRoutes = require("./routes/user");
 mongoose.connect(process.env.DATABASE, () => {
   console.log("connected to DB!");
 });
+
+// middleware
+app.use(morgan("dev"));
+app.use(cookieParser());
+app.use(express.json());
+app.use(expressValidator());
 
 // routes middlware
 app.use("/api", userRoutes);
